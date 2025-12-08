@@ -1541,7 +1541,11 @@ export(TARGETS open62541
 # Generate and install open62541.pc
 set(pkgcfgpubliclibs "")
 foreach(lib ${open62541_PUBLIC_LIBRARIES})
-    set(pkgcfgpubliclibs "${pkgcfgpubliclibs}-l${lib} ")
+    if(lib MATCHES "^/" OR lib MATCHES "^-")
+        set(pkgcfgpubliclibs "${pkgcfgpubliclibs}${lib} ")
+    else()
+        set(pkgcfgpubliclibs "${pkgcfgpubliclibs}-l${lib} ")
+    endif()
 endforeach()
 
 if(BUILD_SHARED_LIBS)
